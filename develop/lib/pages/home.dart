@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:develop/Classes/Database/Database/shared_preferences_util.dart';
+
 import '/APICalls/endpoints.dart';
 import '/Classes/dataPoints/carousal_data.dart';
 import '/widgets/ImageCarousel/customizer_class.dart';
@@ -41,13 +43,27 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    loadSelectedValuesToFile();
     fetchData();
     isLoading=true;
   }
 
+
+  Future<void> loadSelectedValuesToFile() async {
+    // DistanceRadiusValue = myVariable; //Saved
+    // // Create a dictionary with "Not selected" for missing selections
+    //
+
+    LocationAndUserDataToPassedOBJECT.local = await SharedPreferencesDatabase.loadVariable("LanguageAvailable", 'en');
+
+    // For testing purposes, print the updated data
+    print("Loaded data from the database is : ");
+    print(LocationAndUserDataToPassedOBJECT.updatedData);
+  }
   Future<void> fetchData() async {
     final baseUrl = common_endpoint;
     final endpoint = API_endpoints_MAP['recommendation_load']!;
+
 
 
     try {

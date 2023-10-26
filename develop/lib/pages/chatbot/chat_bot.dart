@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:develop/APICalls/Requests/LocationData.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -328,24 +329,53 @@ class ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Future<String> fetchChatbotResponse(String userMessage) async {
-    final url =
-        'https://histomind-86f011d5789d.herokuapp.com/chatbot/$userMessage';
 
-    final response = await http.get(Uri.parse(url), headers: {
-      'accept': 'application/json',
-    });
+
+
+  Future<String> fetchChatbotResponse(String userMessage) async {
+
+
+
+
+    final apiUrl = Uri.parse('https://histomind1-7933605b4f2c.herokuapp.com/chatterbot'); // Update the URL
+
+    final data = {
+      'message': userMessage,
+      'local': LocationAndUserDataToPassedOBJECT.local,
+    };
+
+    print("Data is : " );
+    print(data);
+
+    final response = await http.post(
+      apiUrl,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(data),
+    );
+
 
     if (response.statusCode == 200) {
       // Successful API call
       Map<String, dynamic> responseData = json.decode(response.body);
       String message = responseData['response'];
+
+      print("message is : " );
+      print(message);
+
       return message;
     } else {
       // Handle any error cases here
       throw Exception('Failed to load chatbot response');
     }
+
+
+
+
+
+
   }
+
+
 
   void _handleSubmitted(String text) {
     _textController.clear();

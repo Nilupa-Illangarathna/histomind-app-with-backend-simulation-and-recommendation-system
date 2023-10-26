@@ -18,6 +18,7 @@ void main() async {
   String firsttime = await SharedPreferencesDatabase.loadVariable("NotInTheFirstTimeLogKey", "NotInTheFirstTimeLog");
   if(firsttime=="NotInTheFirstTimeLog"){
     SharedPreferencesDatabase.saveVariable("NotInTheFirstTimeLogKey",  "true");
+    SharedPreferencesDatabase.saveVariable("LanguageAvailable", LocationAndUserDataToPassedOBJECT.local ?? 'en');
   }
   print("Hello World " + firsttime);
   String secondtime = await SharedPreferencesDatabase.loadVariable("NotInTheFirstTimeLogKey", "true");
